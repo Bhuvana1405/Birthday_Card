@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Birthday Card</title>
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+
+        body {
+            min-height: 100vh;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            background-color: #000033;
+            font-family: Arial, sans-serif;
+        }
+
+        .gift-box {
+            width: 300px;
+            height: 200px;
+            background-color: #1a365d;
+            position: relative;
+            cursor: pointer;
+            border: 4px solid #ff0000;
+            border-radius: 10px;
+            transition: transform 0.3s;
+        }
+
+        .gift-box:hover {
+            transform: scale(1.05);
+        }
+
+        .ribbon {
+            position: absolute;
+            background-color: #ff0000;
+        }
+
+        .ribbon-horizontal {
+            width: 100%;
+            height: 48px;
+            top: 50%;
+            transform: translateY(-50%);
+        }
+
+        .ribbon-vertical {
+            height: 100%;
+            width: 48px;
+            left: 50%;
+            transform: translateX(-50%);
+        }
+
+        .card-container {
+            display: none;
+            width: 90%;
+            max-width: 600px;
+            background-color: #ffffff;
+            border-radius: 15px;
+            padding: 2rem;
+            position: relative;
+            animation: slideIn 0.5s ease-out;
+        }
+
+        .page {
+            display: none;
+            text-align: center;
+            padding: 20px;
+            position: relative;
+        }
+
+        .page.active {
+            display: block;
+        }
+
+        .heart {
+            color: #ff0000;
+            font-size: 48px;
+            position: absolute;
+            animation: float 3s ease-in-out infinite;
+        }
+
+        .navigation {
+            display: flex;
+            justify-content: space-between;
+            margin-top: 20px;
+        }
+
+        .nav-button {
+            background: none;
+            border: none;
+            color: #ff0000;
+            font-size: 24px;
+            cursor: pointer;
+            padding: 10px;
+        }
+
+        @keyframes slideIn {
+            from {
+                transform: translateY(-20px);
+                opacity: 0;
+            }
+            to {
+                transform: translateY(0);
+                opacity: 1;
+            }
+        }
+
+        @keyframes float {
+            0%, 100% {
+                transform: translateY(0);
+            }
+            50% {
+                transform: translateY(-20px);
+            }
+        }
+    </style>
+</head>
+<body>
+    <div class="gift-box" id="giftBox">
+        <div class="ribbon ribbon-horizontal"></div>
+        <div class="ribbon ribbon-vertical"></div>
+    </div>
+
+    <audio id="birthdayAudio" src="birthday_song.mp3"></audio>
+
+    <div class="card-container" id="cardContainer">
+        <div class="page active" id="page1">
+            <h1>Happy Birthday</h1>
+            <p>Pookie Nanaa! 💖</p>
+            <div class="heart">❤️</div>
+        </div>
+
+        <div class="page" id="page2">
+            <p>From the moment we met, life has never been the same. You have filled my world with laughter, love, and so many unforgettable moments. Your presence alone makes everything feel lighter, and I can't imagine a life where you're not a part of it.</p>
+            <p>No words can express how much you mean to me, but just know that I am beyond grateful to have you. I wish you a lifetime of happiness, success, and love. No matter where life takes us, we will always find our way back to each other.</p>
+            <div class="heart">❤️</div>
+        </div>
+
+        <div class="page" id="page3">
+            <p>Life moves fast, but my heart still holds onto the memories of *us*. From the moment we stepped into our second year, I kept thinking about how we only had two more years to spend together before life would take us on different paths. And just like that, in the blink of an eye, those two years have already passed.</p>
+            <div class="heart">❤️</div>
+        </div>
+
+        <div class="page" id="page4">
+            <p>I'm missing you so badly that even the smallest things remind me of you. Every place we used to sit, every conversation we had, and every laugh we shared keeps replaying in my mind. It's hard to accept that those moments are now just memories when all I want is to live them again. I never thought missing someone could feel this heavy, like a piece of me is somewhere far away. No matter where we go or how much time passes, a part of me will always wish for just one more day with you just to see you, just to talk, just to laugh, just to be *us* again.</p>
+            <p>Happy Birthday, pookie nanaaa..! 💖🎉</p>
+            <div class="heart">❤️</div>
+        </div>
+
+        <div class="navigation">
+            <button class="nav-button" id="prevBtn">←</button>
+            <button class="nav-button" id="nextBtn">→</button>
+        </div>
+    </div>
+
+    <script>
+        const giftBox = document.getElementById('giftBox');
+        const cardContainer = document.getElementById('cardContainer');
+        const birthdayAudio = document.getElementById('birthdayAudio');
+        const prevBtn = document.getElementById('prevBtn');
+        const nextBtn = document.getElementById('nextBtn');
+        const pages = document.querySelectorAll('.page');
+        let currentPage = 0;
+
+        giftBox.addEventListener('click', () => {
+            giftBox.style.display = 'none';
+            cardContainer.style.display = 'block';
+            birthdayAudio.play();
+        });
+
+        function showPage(pageIndex) {
+            pages.forEach((page, index) => {
+                page.classList.toggle('active', index === pageIndex);
+            });
+            prevBtn.style.visibility = pageIndex === 0 ? 'hidden' : 'visible';
+            nextBtn.style.visibility = pageIndex === pages.length - 1 ? 'hidden' : 'visible';
+        }
+
+        prevBtn.addEventListener('click', () => {
+            if (currentPage > 0) {
+                currentPage--;
+                showPage(currentPage);
+            }
+        });
+
+        nextBtn.addEventListener('click', () => {
+            if (currentPage < pages.length - 1) {
+                currentPage++;
+                showPage(currentPage);
+            }
+        });
+
+        showPage(currentPage);
+    </script>
+</body>
+</html>
